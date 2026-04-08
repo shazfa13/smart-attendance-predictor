@@ -13,6 +13,7 @@
     <nav class="sidebar-nav">
       <a href="{{ url_for('dashboard') }}">Home</a>
       <a href="{{ url_for('dashboard') }}#predict-section">Predict Risk</a>
+      <a href="{{ url_for('student_entry') }}">Add Student</a>
       <a href="{{ url_for('analytics') }}">Analytics</a>
       <a href="{{ url_for('records') }}" class="active">Student Records</a>
       <a href="{{ url_for('index') }}#features">About</a>
@@ -61,6 +62,7 @@
               <th>Name</th>
               <th>Attendance %</th>
               <th>Risk Level</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -69,6 +71,16 @@
                 <td>{{ student.name }}</td>
                 <td>{{ student.attendance }}%</td>
                 <td><span class="risk-badge risk-{{ student.risk | lower }}">{{ student.risk }}</span></td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm delete-record-btn"
+                    data-delete-url="{{ url_for('remove_record', student_id=student.id) }}"
+                    data-student-name="{{ student.name }}"
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             {% endfor %}
           </tbody>

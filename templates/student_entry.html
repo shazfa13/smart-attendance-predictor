@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}Add Student | Smart Attendance Risk Predictor{% endblock %}
+{% block content %}
+<div class="dashboard-shell">
+  <aside class="sidebar sidebar-static">
+    <div class="sidebar-header">
+      <div class="brand-mark small">SAP</div>
+      <div>
+        <h2 class="h6 mb-0 text-white">Add Student</h2>
+        <p class="text-white-50 small mb-0">Record entry form</p>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('dashboard') }}">Home</a>
+      <a href="{{ url_for('dashboard') }}#predict-section">Predict Risk</a>
+      <a href="{{ url_for('student_entry') }}" class="active">Add Student</a>
+      <a href="{{ url_for('analytics') }}">Analytics</a>
+      <a href="{{ url_for('records') }}">Student Records</a>
+      <a href="{{ url_for('index') }}#about">About</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="topbar">
+      <div>
+        <p class="text-muted small mb-0">Student database</p>
+        <h1 class="h4 mb-0">Add Student Details</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-button" id="themeToggle" type="button">◐</button>
+        <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+      </div>
+    </header>
+
+    <section class="panel-card">
+      <div class="panel-head mb-3">
+        <div>
+          <h2>Student Entry</h2>
+          <p>Enter details to store them in the database and update analytics automatically.</p>
+        </div>
+      </div>
+
+      <form method="post" action="{{ url_for('student_entry') }}" class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Student Name</label>
+          <input type="text" class="form-control" name="name" value="{{ form_data.get('name', '') }}" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Total Classes</label>
+          <input type="number" class="form-control" name="total_classes" min="1" value="{{ form_data.get('total_classes', 60) }}" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Classes Attended</label>
+          <input type="number" class="form-control" name="attended_classes" min="0" value="{{ form_data.get('attended_classes', 42) }}" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Internal Marks</label>
+          <input type="number" class="form-control" name="marks" min="0" max="100" value="{{ form_data.get('marks', 72) }}" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Subject Difficulty</label>
+          <select class="form-select" name="subject_difficulty">
+            <option value="Easy" {% if form_data.get('subject_difficulty', 'Medium') == 'Easy' %}selected{% endif %}>Easy</option>
+            <option value="Medium" {% if form_data.get('subject_difficulty', 'Medium') == 'Medium' %}selected{% endif %}>Medium</option>
+            <option value="Hard" {% if form_data.get('subject_difficulty', 'Medium') == 'Hard' %}selected{% endif %}>Hard</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Attendance Trend</label>
+          <select class="form-select" name="attendance_trend">
+            <option value="Improving" {% if form_data.get('attendance_trend', 'Stable') == 'Improving' %}selected{% endif %}>Improving</option>
+            <option value="Stable" {% if form_data.get('attendance_trend', 'Stable') == 'Stable' %}selected{% endif %}>Stable</option>
+            <option value="Declining" {% if form_data.get('attendance_trend', 'Stable') == 'Declining' %}selected{% endif %}>Declining</option>
+          </select>
+        </div>
+        <div class="col-12 d-flex flex-wrap gap-3 align-items-center mt-2">
+          <button type="submit" class="btn btn-accent px-4">Save Student</button>
+          <a class="btn btn-outline-primary" href="{{ url_for('analytics') }}">View Analytics</a>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+{% endblock %}
+{% block scripts %}{% endblock %}

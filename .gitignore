@@ -32,6 +32,8 @@ htmlcov/
 # Flask / local runtime artifacts
 instance/
 *.log
+*.db
+attendance.db
 
 # Environment variables and secrets
 .env

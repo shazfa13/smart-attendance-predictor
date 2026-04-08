@@ -100,6 +100,44 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  document.querySelectorAll(".delete-record-btn").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const deleteUrl = button.getAttribute("data-delete-url");
+      const studentName = button.getAttribute("data-student-name") || "this student";
+
+      if (!deleteUrl) {
+        return;
+      }
+
+      const confirmed = window.confirm(`Delete ${studentName}? This action cannot be undone.`);
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        const response = await fetch(deleteUrl, {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          credentials: "same-origin",
+        });
+        const responseText = await response.text();
+        const contentType = response.headers.get("content-type") || "";
+        const data = contentType.includes("application/json")
+          ? JSON.parse(responseText)
+          : { success: false, message: responseText || `Delete failed (${response.status})` };
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.message || "Delete failed");
+        }
+
+        showToast("Record deleted", `${studentName} was removed from the database.`, "success");
+        window.location.reload();
+      } catch (error) {
+        showToast("Delete error", error.message, "danger");
+      }
+    });
+  });
+
   const dashboardDataElement = document.getElementById("dashboard-data");
   const dashboardData = dashboardDataElement
     ? {
