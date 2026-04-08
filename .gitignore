@@ -45,3 +45,12 @@ instance/
 # OS files
 .DS_Store
 Thumbs.db
+# ML model files
+*.pkl
+
+# Your specific venv folder
+.venv_alt/
+
+# Optional: keep model folder but ignore contents
+model/*
+!model/.gitkeep
