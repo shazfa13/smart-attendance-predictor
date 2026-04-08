@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block title %}Smart Attendance Risk Predictor{% endblock %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark landing-nav px-4 py-3">
+  <a class="navbar-brand fw-bold" href="#hero">Smart Attendance</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#landingNav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="landingNav">
+    <ul class="navbar-nav ms-auto gap-lg-3 align-items-lg-center">
+      <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+      <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section id="hero" class="landing-hero">
+  <div class="hero-orb orb-one"></div>
+  <div class="hero-orb orb-two"></div>
+  <div class="container position-relative">
+    <div class="row align-items-center min-vh-100 py-5">
+      <div class="col-lg-7 hero-copy">
+        <span class="eyebrow">AI-powered attendance monitoring</span>
+        <h1 class="display-3 fw-black text-white mt-3">Smart Attendance Risk Predictor</h1>
+        <p class="lead text-white-50 mt-4 mb-4">AI-powered system to prevent attendance shortage with risk scoring, analytics, and actionable recommendations.</p>
+        <div class="d-flex flex-wrap gap-3">
+          <a class="btn btn-accent btn-lg" href="{{ url_for('dashboard') }}">Get Started</a>
+          <a class="btn btn-outline-light btn-lg" href="#features">Explore Features</a>
+        </div>
+      </div>
+      <div class="col-lg-5 mt-5 mt-lg-0">
+        <div class="glass-card p-4 p-md-5 shadow-lg">
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <div>
+              <p class="text-uppercase text-primary-soft small mb-1">Live overview</p>
+              <h2 class="h4 text-white mb-0">Attendance intelligence</h2>
+            </div>
+            <span class="status-pill">Demo Ready</span>
+          </div>
+          <div class="metric-grid">
+            <div class="metric-card">
+              <span>Risk Score</span>
+              <strong>82%</strong>
+            </div>
+            <div class="metric-card">
+              <span>Safe Students</span>
+              <strong>68%</strong>
+            </div>
+            <div class="metric-card">
+              <span>Alerts</span>
+              <strong>12</strong>
+            </div>
+            <div class="metric-card">
+              <span>Trend</span>
+              <strong>Improving</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section-block">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-6">
+        <div class="section-tag">About</div>
+        <h2 class="section-title">Built for fast intervention before attendance drops below 75%</h2>
+      </div>
+      <div class="col-lg-6">
+        <p class="section-text">This system combines a trained scikit-learn model with a modern dashboard, charts, and student records so staff can spot attendance risk early and act with clear recommendations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="section-block alt-block">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-lg-8">
+        <div class="section-tag">Features</div>
+        <h2 class="section-title">Everything needed for an impressive college demo</h2>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card h-100">
+          <h3>ML Risk Prediction</h3>
+          <p>Predict low attendance risk using class count, attendance, marks, difficulty, and trend.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card h-100">
+          <h3>Interactive Analytics</h3>
+          <p>Visualize attendance patterns and risk distribution using Chart.js charts.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card h-100">
+          <h3>Records and Reports</h3>
+          <p>Searchable student records, exports, and downloadable reports for quick review.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-block cta-block">
+  <div class="container">
+    <div class="cta-card">
+      <div>
+        <div class="section-tag">Ready</div>
+        <h2 class="section-title text-white">Launch the dashboard and test the prediction workflow.</h2>
+      </div>
+      <a class="btn btn-accent btn-lg" href="{{ url_for('login') }}">Login to continue</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}Analytics | Smart Attendance Risk Predictor{% endblock %}
+{% block content %}
+<div class="dashboard-shell">
+  <aside class="sidebar sidebar-static">
+    <div class="sidebar-header">
+      <div class="brand-mark small">SAP</div>
+      <div>
+        <h2 class="h6 mb-0 text-white">Analytics</h2>
+        <p class="text-white-50 small mb-0">Visual insights</p>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('dashboard') }}">Home</a>
+      <a href="{{ url_for('dashboard') }}#predict-section">Predict Risk</a>
+      <a href="{{ url_for('analytics') }}" class="active">Analytics</a>
+      <a href="{{ url_for('records') }}">Student Records</a>
+      <a href="{{ url_for('index') }}#features">About</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="topbar">
+      <div>
+        <p class="text-muted small mb-0">Chart dashboard</p>
+        <h1 class="h4 mb-0">Attendance Analytics</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-button" id="themeToggle" type="button">◐</button>
+        <a class="btn btn-outline-primary btn-sm" href="{{ url_for('download_report') }}">Download Report</a>
+        <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+      </div>
+    </header>
+
+    <section class="stat-grid">
+      <div class="info-card">
+        <span>Students tracked</span>
+        <strong>{{ labels | length }}</strong>
+      </div>
+      <div class="info-card success">
+        <span>Average attendance</span>
+        <strong>81%</strong>
+      </div>
+      <div class="info-card warning">
+        <span>Risk alerts</span>
+        <strong>{{ risk_values | select('equalto', 'High') | list | length }}</strong>
+      </div>
+      <div class="info-card danger">
+        <span>Improvement rate</span>
+        <strong>14%</strong>
+      </div>
+    </section>
+
+    <section class="content-grid analytics-grid">
+      <div class="panel-card">
+        <div class="panel-head">
+          <div>
+            <h2>Attendance vs Risk</h2>
+            <p>Bar chart showing attendance percentage across students.</p>
+          </div>
+        </div>
+        <canvas id="attendanceRiskChart" height="140"></canvas>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-head">
+          <div>
+            <h2>Weekly Attendance Trend</h2>
+            <p>Attendance and risk levels over the week.</p>
+          </div>
+        </div>
+        <canvas id="weeklyAnalyticsChart" height="140"></canvas>
+      </div>
+    </section>
+    <div
+      id="analytics-data"
+      class="d-none"
+      data-labels='{{ labels | tojson | safe }}'
+      data-attendance='{{ attendance | tojson | safe }}'
+      data-risk-values='{{ risk_values | tojson | safe }}'
+      data-weekly-labels='{{ weekly_labels | tojson | safe }}'
+      data-weekly-attendance='{{ weekly_attendance | tojson | safe }}'
+      data-weekly-risk='{{ weekly_risk | tojson | safe }}'
+    ></div>
+  </main>
+</div>
+{% endblock %}
+{% block scripts %}{% endblock %}

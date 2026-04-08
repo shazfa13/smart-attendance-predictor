@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | Smart Attendance Risk Predictor{% endblock %}
+{% block content %}
+<div class="dashboard-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="brand-mark small">SAP</div>
+      <div>
+        <h2 class="h6 mb-0 text-white">Smart Attendance</h2>
+        <p class="text-white-50 small mb-0">Predictor System</p>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('dashboard') }}" class="active">Home</a>
+      <a href="#predict-section">Predict Risk</a>
+      <a href="{{ url_for('analytics') }}">Analytics</a>
+      <a href="{{ url_for('records') }}">Student Records</a>
+      <a href="{{ url_for('index') }}#about">About</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="topbar">
+      <button class="icon-button" id="sidebarToggle">☰</button>
+      <div>
+        <p class="text-muted small mb-0">Attendance intelligence dashboard</p>
+        <h1 class="h4 mb-0">Hello, {{ user }}</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-button" id="themeToggle" type="button">◐</button>
+        <a class="btn btn-outline-primary btn-sm" href="{{ url_for('logout') }}">Logout</a>
+      </div>
+    </header>
+
+    <section class="stat-grid">
+      <div class="info-card">
+        <span>Total Students</span>
+        <strong>{{ student_count }}</strong>
+      </div>
+      <div class="info-card success">
+        <span>Low Risk</span>
+        <strong>{{ safe_count }}</strong>
+      </div>
+      <div class="info-card warning">
+        <span>Medium Risk</span>
+        <strong>{{ warning_count }}</strong>
+      </div>
+      <div class="info-card danger">
+        <span>High Risk</span>
+        <strong>{{ danger_count }}</strong>
+      </div>
+    </section>
+
+    <section class="content-grid" id="predict-section">
+      <div class="panel-card">
+        <div class="panel-head">
+          <div>
+            <h2>Predict Risk</h2>
+            <p>Enter attendance and academic signals to generate a live risk estimate.</p>
+          </div>
+          <span class="status-pill dark">Live Model</span>
+        </div>
+        <form id="predictionForm" class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Total Classes Conducted</label>
+            <input type="number" class="form-control" name="total_classes" min="1" value="60" required />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Classes Attended</label>
+            <input type="number" class="form-control" name="attended_classes" min="0" value="42" required />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Subject Difficulty</label>
+            <select class="form-select" name="subject_difficulty">
+              <option>Easy</option>
+              <option selected>Medium</option>
+              <option>Hard</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Attendance Trend</label>
+            <select class="form-select" name="attendance_trend">
+              <option>Improving</option>
+              <option selected>Stable</option>
+              <option>Declining</option>
+            </select>
+          </div>
+          <div class="col-md-12">
+            <label class="form-label">Internal Marks</label>
+            <input type="number" class="form-control" name="marks" min="0" max="100" value="72" required />
+          </div>
+          <div class="col-12 d-flex flex-wrap gap-3 align-items-center mt-2">
+            <button type="submit" class="btn btn-accent px-4" id="predictButton">Predict Risk</button>
+            <div class="spinner-border text-primary d-none" id="predictionSpinner" role="status"></div>
+            <button type="button" class="btn btn-outline-primary" id="downloadReportBtn">Download Report</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel-card result-card">
+        <div class="panel-head">
+          <div>
+            <h2>Prediction Result</h2>
+            <p>Risk level, confidence, and smart recommendations appear here.</p>
+          </div>
+        </div>
+        <div class="result-display" id="resultDisplay">
+          <span class="result-label">Awaiting prediction</span>
+          <h3 class="mb-2">No result yet</h3>
+          <p class="text-muted mb-0">Run the prediction form to see the attendance risk score.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel-card mt-4">
+      <div class="panel-head mb-3">
+        <div>
+          <h2>Quick Insights</h2>
+          <p>Trend snapshot for this week.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-7">
+          <canvas id="weekTrendChart" height="120"></canvas>
+        </div>
+        <div class="col-md-5">
+          <div class="mini-summary">
+            <div><span>Average weekly attendance</span><strong>81%</strong></div>
+            <div><span>Students flagged this week</span><strong>7</strong></div>
+            <div><span>Action rate</span><strong>92%</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div
+      id="dashboard-data"
+      class="d-none"
+      data-weekly-labels='{{ ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] | tojson | safe }}'
+      data-weekly-attendance='{{ weekly_attendance | tojson | safe }}'
+      data-weekly-risk='{{ weekly_risk | tojson | safe }}'
+    ></div>
+  </main>
+</div>
+{% endblock %}
+{% block scripts %}{% endblock %}
